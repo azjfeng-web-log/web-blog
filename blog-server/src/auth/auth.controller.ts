@@ -25,7 +25,7 @@ export class AuthController {
     res.cookie('token', result.access_token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
-        maxAge: 36000000,
+        maxAge: 3600000,
       });
     res.json(result);
   }

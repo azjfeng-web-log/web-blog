@@ -4,12 +4,19 @@ import { Form, Input, Button, MessagePlugin } from "tdesign-react";
 import type { FormProps } from "tdesign-react";
 
 import { DesktopIcon, LockOnIcon } from "tdesign-icons-react";
+import { Logout } from "@src/common/request";
 
 const { FormItem } = Form;
 
 export default function LoginPage() {
+  /**
+   * 进入登录界面后，自动退出登录
+   */
   useEffect(() => {
-    // login();
+    async function logout() {
+      await Logout();
+    }
+    logout();
   }, []);
   async function login(params = {}) {
     const res = await UseLogin("/auth/login", params);

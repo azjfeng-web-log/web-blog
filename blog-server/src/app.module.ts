@@ -4,14 +4,22 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { CheckLoginMiddleware } from './middleware/checkLogin.middlerware';
-import { CustomUnauthorizedExceptionFilter } from './middleware/custom-unauthorized-exception.filter';
-import { APP_FILTER } from '@nestjs/core';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import {dbConfig} from '@src/database/db.config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [AuthModule, UsersModule],
+  imports: [
+    TypeOrmModule.forRoot({
+      ...dbConfig,
+    }),
+    AuthModule,
+    UsersModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,
+    ConfigService,
     // {
     //   provide: APP_FILTER,
     //   useClass: CustomUnauthorizedExceptionFilter,

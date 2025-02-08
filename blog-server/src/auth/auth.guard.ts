@@ -3,7 +3,6 @@ import {
   ExecutionContext,
   HttpException,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
@@ -30,7 +29,6 @@ export class AuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
-    console.log(request.headers.authorization, token);
     if (!token) {
       throw new HttpException(
         {

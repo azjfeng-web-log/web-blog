@@ -18,6 +18,9 @@ export default function App() {
         setIsInit(true);
       }
     }
+    window.addEventListener("hashchange", async () => {
+      await checkLogin();
+    });
     checkLogin();
   }, []);
   useEffect(() => {

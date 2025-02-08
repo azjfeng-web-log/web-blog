@@ -8,7 +8,6 @@ export class CheckLoginMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
     const token = getCookie(req.headers.cookie || '', 'token');
     req.headers.authorization = `Bearer ${token}`;
-    console.log('Request...', req.headers.authorization);
     next();
   }
 }

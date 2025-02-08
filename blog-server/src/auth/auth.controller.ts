@@ -20,14 +20,34 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  async signIn(@Body() signInDto: Record<string, any>, @Res() res: any, @Request() req: any) {
-    const result = await this.authService.signIn(signInDto.username, signInDto.password);
+  async signIn(
+    @Body() signInDto: Record<string, any>,
+    @Res() res: any,
+    @Request() req: any,
+  ) {
+    const result = await this.authService.signIn(
+      signInDto.username,
+      signInDto.password,
+    );
     res.cookie('token', result.access_token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        maxAge: 3600000,
-      });
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 3600000,
+    });
+    res.cookie('account', signInDto.username, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 3600000,
+    });
     res.json(result);
+  }
+
+  @Public()
+  @HttpCode(HttpStatus.OK)
+  @Post('logout')
+  async logout(@Res() res: any, @Request() req: any) {
+    res.clearCookie('token');
+    res.json({ message: 'Logout success', status: 401 });
   }
 
   @UseGuards(AuthGuard)

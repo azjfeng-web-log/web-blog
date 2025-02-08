@@ -31,3 +31,8 @@ export async function UseLogin(url, params = {}) {
   const result = await request(url, "", params);
   return result;
 }
+
+export async function Logout() {
+  const result = await request('/auth/logout', "", {});
+  return result;
+}

@@ -3,10 +3,9 @@ import { Dropdown, Layout, Menu } from "tdesign-react";
 import {
   SearchIcon,
   NotificationFilledIcon,
-  HomeIcon,
-  LoginIcon,
   User1Icon,
 } from "tdesign-icons-react";
+import { Logout } from "@src/common/request";
 
 import { useNavigate } from "react-router-dom";
 
@@ -18,17 +17,17 @@ const { Header } = Layout;
  */
 const DropItems = [
   {
-    content: "登录",
+    content: "退出登录",
     value: 1,
   },
 ];
 
 export default function NavHeader() {
   const navigate = useNavigate();
-  function handlerJump(data) {
+  async function handlerJump(data) {
     switch (data.value) {
       case 1:
-        navigate("/login");
+        await Logout();
         break;
       default:
         break;

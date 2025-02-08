@@ -1,23 +1,33 @@
-export function request(url: string, options: any, callback?: any) {
+export function request(url: string, method?: string, params?: any) {
   return new Promise((resolve, reject) => {
-    fetch(url, options)
-    .then((response) => response.json())
-    .then((res)=> {
-        resolve(res);
+    fetch(url, {
+      method: method || "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(params),
     })
-    .catch((err) => {
+      .then((response) => response.json())
+      .then((res) => {
+        if (res?.status === 401) {
+          window.location.href = "/#login";
+          return;
+        }
+        resolve(res);
+      })
+      .catch((err) => {
+        console.log(err);
         reject(err);
-    });
+      });
   });
 }
 
-
-export async function getHello(url, options?: any){
-    const result = await request(url, options)
-    return result;
+export async function CheckLogin(url, params = {}) {
+  const result = await request(url, "", params);
+  return result;
 }
 
-export async function login(url, options?: any){
-    const result = await request(url, options)
-    return result;
+export async function UseLogin(url, params = {}) {
+  const result = await request(url, "", params);
+  return result;
 }

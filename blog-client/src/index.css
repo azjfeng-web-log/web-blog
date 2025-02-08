@@ -3,3 +3,13 @@
 :root[theme-mode="light"] {
   background-color: rgba(0, 0, 0, 0.05);
 }
+
+.page-login {
+  background-image: url('https://static.tdesign.tencent.com/starter/react/assets/assets-login-bg-white.439b0654.png');
+}
+
+.login-form {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

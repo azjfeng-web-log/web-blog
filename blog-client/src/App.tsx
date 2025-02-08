@@ -2,38 +2,36 @@ import React, { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 import router from "@src/router/router";
 import { Loading } from "tdesign-react";
-import { getHello, login } from "@src/common/request";
+import { CheckLogin } from "@src/common/request";
+import { useIndexStore } from "@src/store";
 export default function App() {
-  const [isInit, setIsInit] = React.useState(false);
+  const isInit = useIndexStore((state) => state.isInit);
+  const setIsInit = useIndexStore((state) => state.setIsInit);
+
   useEffect(() => {
-    async function loginUser() {
-        const res = await login("/auth/login", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: "john",
-                password: "changeme",
-            })
-          });
-          console.log('loginUser', res);
+    async function checkLogin() {
+      try {
+        const res = await CheckLogin("/auth/profile", {});
+        console.log("checkLogin", res);
+        setIsInit(true);
+      } catch (error) {
+        setIsInit(true);
+      }
     }
-    // loginUser();
-    async function getHello2() {
-      const res = await getHello("/auth/profile", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      console.log('getHello2', res);
-      setIsInit(true);
-    }
-    getHello2();
-
-
+    checkLogin();
   }, []);
+  useEffect(() => {
+    if (location.hash === "#login") {
+      setIsInit(true);
+      return;
+    }
+    const timer = setTimeout(() => {
+      setIsInit(true);
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [location]);
   if (isInit) {
     return <RouterProvider router={router} />;
   }
@@ -42,7 +40,7 @@ export default function App() {
       loading={true}
       fullscreen
       preventScrollThrough={true}
-      text="加载中"
+      text="页面加载中"
     ></Loading>
   );
 }

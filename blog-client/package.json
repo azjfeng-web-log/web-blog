@@ -14,7 +14,8 @@
     "react-router-dom": "6",
     "style-loader": "^4.0.0",
     "tdesign-icons-react": "^0.4.3",
-    "tdesign-react": "^1.10.5"
+    "tdesign-react": "^1.10.5",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@rspack/cli": "^1.1.5",

@@ -23,6 +23,7 @@
     "node_modules"
   ],
   "include": [
-    "/Users/jameifeng/codeProject/personerCode/web-blog/blog-client/src/**/*"
+    "/Users/jameifeng/codeProject/personerCode/web-blog/blog-client/src/**/*",
+    "./global.d.ts",
   ],
 }

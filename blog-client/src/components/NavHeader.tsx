@@ -8,6 +8,7 @@ import {
 import { Logout } from "@src/common/request";
 
 import { useNavigate } from "react-router-dom";
+import header from '@src/assets/image/header.png';
 
 const { HeadMenu, MenuItem } = Menu;
 const { Header } = Layout;
@@ -40,9 +41,9 @@ export default function NavHeader() {
           value="item1"
           logo={
             <img
-              width="136"
-              src="https://www.tencent.com/img/index/menu_logo_hover.png"
+              src={header}
               alt="logo"
+              style={{width: 'auto', height: '100%'}}
             />
           }
           operations={

@@ -21,10 +21,6 @@ export class BlogsService {
   }
 
   async create(body: any): Promise<any> {
-    const bgUrl = body.bg_url;
-    // 移除 Base64 URL 的前缀（如果有）
-    const pureBase64Data = bgUrl.split(',')[1];
-    body.bg_url = pureBase64Data;
     return await this.BlogsRepository.save(body);
   }
 }

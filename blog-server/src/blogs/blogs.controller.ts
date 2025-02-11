@@ -12,7 +12,6 @@ export class BlogsController {
   async createBlog(@Body() req: any) {
     try {
         const result = await this.blogsService.create(req);
-        console.log('createBlog', result);
         return {
             status: 0,
             message: 'success',

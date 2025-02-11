@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { Card } from "tdesign-react";
+import { Card, Form, Input, Upload } from "tdesign-react";
 import Button from "tdesign-react/es/button/Button";
+import { CreateBlog } from "@src/common/request";
 
 import hljs from "highlight.js";
-import "highlight.js/styles/github.css"; // 选择你喜欢的样式
-
+import { GetBase64Url, getCookie } from "@src/utils/utils";
+const { FormItem } = Form;
 // 配置Highlight.js
 hljs.configure({
   languages: ["javascript", "ruby", "python", "html"], // 只包括你需要的语言
@@ -45,6 +46,10 @@ const modules = {
 export default function CreationPage() {
   const [codeValues, setCodeValues] = useState("");
   const [previewData, setPreviewData] = useState("");
+  const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [files1, setFiles1] = useState<any>([]);
+  const [bgImg, setBgimg] = useState("");
 
   function onChange(value) {
     //|<\/pre>|<code[^>]*>|<\/code>
@@ -59,10 +64,35 @@ export default function CreationPage() {
   }
   const createMarkup = (html) => {
     return {
-      __html:
-        highlightWithHLJS(html),
+      __html: highlightWithHLJS(html),
     };
   };
+
+  async function handlerSubmit() {
+    const payload = {
+      title,
+      description,
+      content: codeValues,
+      bg_url: bgImg,
+      author: getCookie(document.cookie, "account"),
+      avatar_url: getCookie(document.cookie, "avatar_url"),
+    };
+    const result = await CreateBlog(payload);
+
+    console.log(payload, result);
+  }
+  async function handlerUploadImage(files) {
+    if (files.length === 0) {
+      setFiles1([]);
+      setBgimg('');
+      return;
+    }
+    console.log(files);
+    const image = await GetBase64Url(files[0].raw);
+    setBgimg(image.url);
+    console.log("handlerUploadImage", image);
+    setFiles1(files);
+  }
   return (
     <>
       <div style={{ margin: "20px" }}>
@@ -71,7 +101,34 @@ export default function CreationPage() {
             <Button theme="primary" style={{ marginRight: "4px" }}>
               预览
             </Button>
-            <Button theme="primary">提交</Button>
+            <Button theme="primary" onClick={handlerSubmit}>
+              提交
+            </Button>
+          </div>
+          <div>
+            {/* <Form> */}
+            <FormItem label="标题" labelAlign="left">
+              <Input value={title} onChange={setTitle}></Input>
+            </FormItem>
+            <FormItem label="博客描述" labelAlign="left">
+              <Input value={description} onChange={setDescription}></Input>
+            </FormItem>
+            <FormItem label="封面图" labelAlign="left">
+              <Upload
+                files={files1}
+                onChange={handlerUploadImage}
+                theme="image"
+                accept="image/*"
+                autoUpload={false}
+                locale={{
+                  triggerUploadText: {
+                    image: "请选择图片",
+                  },
+                }}
+              />
+              {/* <Input value={bgImg} onChange={setBgimg}></Input> */}
+            </FormItem>
+            {/* </Form> */}
           </div>
           <ReactQuill
             theme="snow"
@@ -82,7 +139,7 @@ export default function CreationPage() {
         </Card>
         <Card style={{ marginTop: "20px" }}>
           <div
-            className="t_code_block_preview"
+            className="t_code_block_preview ql-editor"
             dangerouslySetInnerHTML={createMarkup(previewData)}
           />
         </Card>

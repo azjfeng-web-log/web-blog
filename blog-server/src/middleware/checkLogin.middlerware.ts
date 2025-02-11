@@ -6,7 +6,8 @@ import { getCookie } from 'src/shared/utils';
 @Injectable()
 export class CheckLoginMiddleware implements NestMiddleware {
   use(req: Request, res: Response, next: NextFunction) {
-    const token = getCookie(req.headers.cookie || '', 'token');
+    const cookie = req.headers.cookie;
+    const token = getCookie(cookie || '', 'token');
     req.headers.authorization = `Bearer ${token}`;
     next();
   }

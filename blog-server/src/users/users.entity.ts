@@ -10,4 +10,10 @@ export class UsersConfig {
 
   @Column()
   password: string;
+
+  @Column()
+  avatar_url: string;
+
+  @Column({default: ''})
+  created_at: string;
 }

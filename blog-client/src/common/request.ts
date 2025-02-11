@@ -36,3 +36,8 @@ export async function Logout() {
   const result = await request('/auth/logout', "", {});
   return result;
 }
+
+export async function CreateBlog(params = {}) {
+  const result = await request('/blogs/create', "", params);
+  return result;
+}

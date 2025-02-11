@@ -1,38 +1,35 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { IsOptional } from 'class-validator';
 
-@Entity('t_blogs')
-export class BlogsConfig {
+@Entity('t_comments')
+export class CommentsConfig {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({default: 0})
-  linkId: number;
+  @Column()
+  post_id: number;
 
   @Column()
-  author: string;
-
-  @Column('longtext')
-  avatar_url: string;
+  user_id: number;
 
   @Column()
-  title: string;
+  parent_comment_id: number;
 
   @Column()
-  @IsOptional()
-  description: string;
-
-  @Column()
-  @IsOptional()
   content: string;
 
   @Column({ default: 0 })
-  view_num: number;
+  likes_count: number;
 
-  @Column('longtext')
-  @IsOptional()
-  bg_url: string;
+  @Column({ default: 0 })
+  dilikes_count: number;
+
+  @Column({ default: 0 })
+  deleted_flag: number;
 
   @Column({ default: '' })
   created_at: string;
+
+  @Column({ default: '' })
+  updated_at: string;
 }

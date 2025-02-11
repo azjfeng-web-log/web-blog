@@ -39,6 +39,11 @@ export class AuthController {
       secure: process.env.NODE_ENV === 'production',
       maxAge: 3600000,
     });
+    res.cookie('avatar_url', result.avatar_url, {
+      httpOnly: false,
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 3600000,
+    });
     res.json(result);
   }
 
@@ -52,7 +57,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard)
   @Post('profile')
-  getProfile(@Request() req) {
+  getProfile(@Body() body: any,  @Request() req) {
     return req.user;
   }
 }

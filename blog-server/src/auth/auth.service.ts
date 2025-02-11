@@ -28,6 +28,7 @@ export class AuthService {
     return {
       access_token: token,
       status: 200,
+      avatar_url: user.avatar_url,
     };
   }
 }

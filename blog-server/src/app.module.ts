@@ -8,7 +8,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import {dbConfig} from '@src/database/db.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { BlogsModule } from './blogs/blogs.module';
-import { CommentModule } from './comment/comment.module';
+import { CommentModule } from './comments/comments.module';
 
 @Module({
   imports: [

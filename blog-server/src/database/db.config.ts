@@ -1,5 +1,6 @@
 import { UsersConfig } from '@src/users/users.entity';
 import { BlogsConfig } from '@src/blogs/blogs.entity';
+import { CommentsConfig } from '@src/comments/comments.entity';
 
 function getDataBase(envName: string): string {
   switch (envName) {
@@ -20,6 +21,6 @@ export const dbConfig: any =  {
   username: 'root',
   password: 'wc8294WCY',
   database: getDataBase(process.env.CODING_ENV_NAME || ''),
-  entities: [UsersConfig, BlogsConfig],
+  entities: [UsersConfig, BlogsConfig, CommentsConfig],
   synchronize: true,
 };

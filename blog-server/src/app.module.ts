@@ -7,6 +7,8 @@ import { CheckLoginMiddleware } from './middleware/checkLogin.middlerware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import {dbConfig} from '@src/database/db.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { BlogsModule } from './blogs/blogs.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -15,15 +17,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     }),
     AuthModule,
     UsersModule,
+    BlogsModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [
     AppService,
     ConfigService,
-    // {
-    //   provide: APP_FILTER,
-    //   useClass: CustomUnauthorizedExceptionFilter,
-    // },
   ],
 })
 export class AppModule implements NestModule {

@@ -5,9 +5,8 @@ export default function DetailPage() {
   const { articleId } = useParams();
   const [pageId, setPageId] = useState<string>("");
   useEffect(() => {
-    const pageID = articleId.split("=")[1];
-    setPageId(pageID);
-    console.log(articleId, pageID);
+    setPageId(articleId);
+    console.log(articleId);
   }, []);
   return <>detail page {pageId}</>;
 }

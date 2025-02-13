@@ -17,7 +17,7 @@ export class AuthService {
     if (user?.password !== pass) {
       throw new HttpException(
         {
-          messgae: 'account or password is incorrect',
+          message: 'account or password is incorrect',
           status: 10001,
         },
         200,

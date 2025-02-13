@@ -9,9 +9,9 @@ export class BlogsController {
   @UseGuards(AuthGuard)
   @Post('create')
   @HttpCode(HttpStatus.OK)
-  async createBlog(@Body() req: any) {
+  async createBlog(@Body() body: any) {
     try {
-        const result = await this.blogsService.create(req);
+        const result = await this.blogsService.create(body);
         return {
             status: 0,
             message: 'success',

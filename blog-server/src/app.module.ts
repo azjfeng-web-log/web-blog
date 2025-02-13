@@ -26,6 +26,9 @@ import { CommentModule } from './comments/comments.module';
     ConfigService,
   ],
 })
+// export class AppModule {
+
+// }
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(CheckLoginMiddleware).exclude('auth/login').forRoutes('*');

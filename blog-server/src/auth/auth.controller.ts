@@ -5,7 +5,6 @@ import {
   HttpCode,
   HttpStatus,
   Post,
-  Request,
   Res,
   UseGuards,
 } from '@nestjs/common';
@@ -23,7 +22,6 @@ export class AuthController {
   async signIn(
     @Body() signInDto: Record<string, any>,
     @Res() res: any,
-    @Request() req: any,
   ) {
     const result = await this.authService.signIn(
       signInDto.username,
@@ -50,14 +48,17 @@ export class AuthController {
   @Public()
   @HttpCode(HttpStatus.OK)
   @Post('logout')
-  async logout(@Res() res: any, @Request() req: any) {
+  async logout(@Res() res: any) {
     res.clearCookie('token');
     res.json({ message: 'Logout success', status: 401 });
   }
 
   @UseGuards(AuthGuard)
   @Post('profile')
-  getProfile(@Body() body: any,  @Request() req) {
-    return req.user;
+  getProfile(@Body() body: any) {
+    return {
+      message: 'success',
+      status: 0,
+    }
   }
 }

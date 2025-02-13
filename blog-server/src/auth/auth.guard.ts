@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
     if (!token) {
       throw new HttpException(
         {
-          messgae: 'Unauthorized',
+          message: 'Unauthorized',
           status: 401,
         },
         200,
@@ -48,7 +48,7 @@ export class AuthGuard implements CanActivate {
     } catch {
       throw new HttpException(
         {
-          messgae: 'Unauthorized',
+          message: 'Unauthorized',
           status: 401,
         },
         200,
@@ -58,7 +58,8 @@ export class AuthGuard implements CanActivate {
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
+    const { authorization = '' } = request.headers;
+    const [type, token] = authorization?.split(' ') ?? [];
     return type === 'Bearer' ? token : undefined;
   }
 }

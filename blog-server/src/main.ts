@@ -1,16 +1,44 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
-import { json, urlencoded, text } from 'express';
+import { ArgumentsHost, Catch, ExceptionFilter, ValidationPipe } from '@nestjs/common';
+import { json, text, urlencoded } from 'express';
+
+@Catch()
+export class AllExceptionsFilter implements ExceptionFilter {
+  catch(exception: Error, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse();
+    
+    console.error('[Error Details]:', {
+      message: exception.message,
+      stack: exception.stack,
+    });
+
+    response.status(401).json({
+      status: 401,
+      message: 'Server-side error occurred. Contact support.',
+    });
+  }
+}
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // 设置全局请求体大小限制
-  app.useGlobalPipes(new ValidationPipe());
-  // app.use(json({ limit: '50mb' }));
+  // 优先设置 Body 解析中间件
+  app.use(json({ limit: '100mb' }));
   app.use(text());
-  // app.use(urlencoded({ extended: true, limit: '50mb' }));
+  app.use(urlencoded({ extended: true, limit: '100mb' }));
+
+  // 全局管道和过滤器
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     whitelist: true,
+  //     forbidNonWhitelisted: true,
+  //     transform: true,
+  //   })
+  // );
+  // app.useGlobalFilters(new AllExceptionsFilter());
+
   await app.listen(3000);
 }
 bootstrap();

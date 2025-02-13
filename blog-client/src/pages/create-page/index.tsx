@@ -3,7 +3,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Card, Form, Input, Upload } from "tdesign-react";
 import Button from "tdesign-react/es/button/Button";
-import { CreateBlog } from "@src/common/request";
+import { CreateBlog, UploadFiles } from "@src/common/request";
 
 import hljs from "highlight.js";
 import { GetBase64Url, getCookie } from "@src/utils/utils";
@@ -87,10 +87,11 @@ export default function CreationPage() {
       setBgimg('');
       return;
     }
-    console.log(files);
-    const image = await GetBase64Url(files[0].raw);
-    setBgimg(image.url);
-    console.log("handlerUploadImage", image);
+    const data = new FormData();
+    data.append("file", files[0].raw);
+    const result: any = await UploadFiles(data);
+    console.log('UploadFiles', result);
+    setBgimg(result.data.url);
     setFiles1(files);
   }
   return (

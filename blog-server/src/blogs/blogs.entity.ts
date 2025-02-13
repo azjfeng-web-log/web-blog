@@ -15,14 +15,14 @@ export class BlogsConfig {
   @Column('longtext')
   avatar_url: string;
 
-  @Column()
+  @Column('longtext')
   title: string;
 
-  @Column()
+  @Column('longtext')
   @IsOptional()
   description: string;
 
-  @Column()
+  @Column('longtext')
   @IsOptional()
   content: string;
 

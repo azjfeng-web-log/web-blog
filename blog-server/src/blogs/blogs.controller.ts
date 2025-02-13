@@ -24,4 +24,22 @@ export class BlogsController {
         }   
     }
   }
+  @UseGuards(AuthGuard)
+  @Post('query')
+  @HttpCode(HttpStatus.OK)
+  async QueryBlog(@Body() body: any) {
+    try {
+        const result = await this.blogsService.findAll();
+        return {
+            status: 0,
+            message: 'success',
+            data: result
+        };
+    } catch (error) {
+        return {
+            status: 10001,
+            message: error.message
+        }   
+    }
+  }
 }

@@ -21,6 +21,8 @@ export class BlogsService {
   }
 
   async create(body: any): Promise<any> {
-    return await this.BlogsRepository.save(body);
+    const t_data = {...body};
+    t_data.created_at = new Date().toLocaleString();
+    return await this.BlogsRepository.save(t_data);
   }
 }

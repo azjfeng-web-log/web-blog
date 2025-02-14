@@ -5,25 +5,9 @@ import { Card, Form, Input, Upload } from "tdesign-react";
 import Button from "tdesign-react/es/button/Button";
 import { CreateBlog, UploadFiles } from "@src/common/request";
 
-import hljs from "highlight.js";
-import { GetBase64Url, getCookie } from "@src/utils/utils";
+import { getCookie, eslintCodeStyle } from "@src/utils/utils";
+import ReactQuillPreview from "@src/components/ReactQuillPreview";
 const { FormItem } = Form;
-// 配置Highlight.js
-hljs.configure({
-  languages: ["javascript", "ruby", "python", "html"], // 只包括你需要的语言
-});
-
-const highlightWithHLJS = (content) => {
-  const root = document.createElement("div");
-  root.innerHTML = content;
-
-  const nodes = root.querySelectorAll("pre code");
-  nodes.forEach((node: any) => {
-    hljs.highlightElement(node);
-  });
-
-  return root.innerHTML;
-};
 
 const modules = {
   toolbar: [
@@ -53,20 +37,10 @@ export default function CreationPage() {
 
   function onChange(value) {
     //|<\/pre>|<code[^>]*>|<\/code>
-    const result = value
-      .replace(/<pre[^>]*>/gi, "<pre><code>")
-      .replace(/<\/pre>/gi, "</code></pre>")
-      .replace(/<code[^>]*>/gi, '<code class="language-javascript">')
-      .replace(/<\/code>/gi, "</code>");
-    console.log("onChangereaplds", result);
+    const result = eslintCodeStyle(value);
     setCodeValues(value);
     setPreviewData(result);
   }
-  const createMarkup = (html) => {
-    return {
-      __html: highlightWithHLJS(html),
-    };
-  };
 
   async function handlerSubmit() {
     const payload = {
@@ -84,13 +58,13 @@ export default function CreationPage() {
   async function handlerUploadImage(files) {
     if (files.length === 0) {
       setFiles1([]);
-      setBgimg('');
+      setBgimg("");
       return;
     }
     const data = new FormData();
     data.append("file", files[0].raw);
     const result: any = await UploadFiles(data);
-    console.log('UploadFiles', result);
+    console.log("UploadFiles", result);
     setBgimg(result.data.url);
     setFiles1(files);
   }
@@ -138,12 +112,9 @@ export default function CreationPage() {
             modules={modules}
           />
         </Card>
-        <Card style={{ marginTop: "20px" }}>
-          <div
-            className="t_code_block_preview ql-editor"
-            dangerouslySetInnerHTML={createMarkup(previewData)}
-          />
-        </Card>
+        <div className="mt-[20px]">
+          <ReactQuillPreview children={previewData}></ReactQuillPreview>
+        </div>
       </div>
     </>
   );

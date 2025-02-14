@@ -6,8 +6,8 @@ export class BlogsConfig {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({default: 0})
-  linkId: number;
+  @Column({default: ''})
+  link_id: string;
 
   @Column()
   author: string;

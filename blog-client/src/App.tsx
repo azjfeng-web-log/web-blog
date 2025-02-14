@@ -2,11 +2,13 @@ import React, { useEffect } from "react";
 import { RouterProvider } from "react-router-dom";
 import router from "@src/router/router";
 import { Loading } from "tdesign-react";
-import { CheckLogin } from "@src/common/request";
+import { CheckLogin, QueryBlog } from "@src/common/request";
 import { useIndexStore } from "@src/store";
+
 export default function App() {
   const isInit = useIndexStore((state) => state.isInit);
   const setIsInit = useIndexStore((state) => state.setIsInit);
+  const setBlogs = useIndexStore((state) => state.setBlogs);
 
   useEffect(() => {
     async function checkLogin() {
@@ -23,6 +25,17 @@ export default function App() {
     });
     checkLogin();
   }, []);
+
+  useEffect(() => {
+    async function queryBlog() {
+      try {
+        const result: any = await QueryBlog({});
+        setBlogs(result.data);
+      } catch (error) {}
+    }
+    queryBlog();
+  }, []);
+
   useEffect(() => {
     if (location.hash === "#login") {
       setIsInit(true);

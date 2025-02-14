@@ -1,7 +1,6 @@
 import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@src/auth/auth.guard';
 import { BlogsService } from './blogs.service';
-import { Public } from '@src/auth/decorators/public.decorator';
 
 @Controller('blogs')
 export class BlogsController {

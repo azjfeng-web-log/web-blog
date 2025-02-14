@@ -26,6 +26,10 @@ body,
   transform: translate(-50%,-50%);
 }
 
+.blog-detail .t-breadcrumb__item {
+  color: rgba(0, 0, 0, 0.9);
+}
+
 /* 亮模式样式 */
 @media (prefers-color-scheme: light) {
   pre code.hljs {

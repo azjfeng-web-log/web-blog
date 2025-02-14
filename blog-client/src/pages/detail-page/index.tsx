@@ -3,7 +3,9 @@ import { useParams } from "react-router-dom";
 import { useIndexStore } from "@src/store";
 import ReactQuillPreview from "@src/components/ReactQuillPreview";
 import { eslintCodeStyle } from "@src/utils/utils";
-import { Empty } from "tdesign-react";
+import { Breadcrumb, Empty } from "tdesign-react";
+
+const { BreadcrumbItem } = Breadcrumb;
 
 export default function DetailPage() {
   const { articleId } = useParams();
@@ -16,12 +18,21 @@ export default function DetailPage() {
     setDetail(items[0] || {});
   }, [articleId, blogs]);
   return (
-    <div style={{ margin: "20px", width: "100%" }}>
+    <div className="blog-detail" style={{ margin: "20px", width: "100%" }}>
       {detail?.content ? (
-        <ReactQuillPreview
-          children={eslintCodeStyle(detail?.content || "")}
-        ></ReactQuillPreview>
-      ) : <Empty style={{marginTop: '50%'}}/>}
+        <>
+          <Breadcrumb maxItemWidth="200px" style={{marginBottom: '4px', color: 'rgba(0, 0, 0, 0.9)'}}>
+            <BreadcrumbItem>{detail.author}</BreadcrumbItem>
+            <BreadcrumbItem>{detail.title}</BreadcrumbItem>
+            <BreadcrumbItem>{detail.created_at}</BreadcrumbItem>
+          </Breadcrumb>
+          <ReactQuillPreview
+            children={eslintCodeStyle(detail?.content || "")}
+          ></ReactQuillPreview>
+        </>
+      ) : (
+        <Empty style={{ marginTop: "50%" }} />
+      )}
     </div>
   );
 }

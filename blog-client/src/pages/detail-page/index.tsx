@@ -18,7 +18,7 @@ export default function DetailPage() {
     setDetail(items[0] || {});
   }, [articleId, blogs]);
   return (
-    <div className="blog-detail" style={{ margin: "20px", width: "100%" }}>
+    <div className="blog-detail" style={{ margin: "20px", width: "100%", overflow: 'auto' }}>
       {detail?.content ? (
         <>
           <Breadcrumb maxItemWidth="200px" style={{marginBottom: '4px', color: 'rgba(0, 0, 0, 0.9)'}}>

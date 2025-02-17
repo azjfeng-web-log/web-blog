@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { Card, Form, Input, Upload } from "tdesign-react";
+import { Card, Form, Input, Textarea, Upload } from "tdesign-react";
 import Button from "tdesign-react/es/button/Button";
-import { CreateBlog, UploadFiles } from "@src/common/request";
+import { CreateBlog, UpdateBlog, UploadFiles } from "@src/common/request";
 
 import { getCookie, eslintCodeStyle } from "@src/utils/utils";
 import ReactQuillPreview from "@src/components/ReactQuillPreview";
+import { useParams } from "react-router-dom";
+import { useIndexStore } from "@src/store";
 const { FormItem } = Form;
 
 const modules = {
@@ -28,22 +30,43 @@ const modules = {
   ],
 };
 export default function CreationPage() {
+  const { articleId } = useParams();
+  const blogs = useIndexStore((state) => state.blogs);
   const [codeValues, setCodeValues] = useState("");
   const [previewData, setPreviewData] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [files1, setFiles1] = useState<any>([]);
+  const [files, setFiles] = useState<any>([]);
   const [bgImg, setBgimg] = useState("");
+  const [oldblog, setOldblog] = useState(null);
+
+  useEffect(() => {
+    if (!articleId) {
+      return;
+    }
+    const items = blogs.filter((item) => item.link_id === articleId);
+    if (items.length === 0) {
+      return;
+    }
+    setTitle(items[0].title);
+    setDescription(items[0].description);
+    setBgimg(items[0].bg_url);
+    setCodeValues(items[0].content);
+    setFiles([
+      { name: "预览图片", status: "success", url: items[0].bg_url, raw: {} },
+    ]);
+    setPreviewData(eslintCodeStyle(items[0].content));
+    setOldblog(items[0]);
+  }, [articleId, blogs]);
 
   function onChange(value) {
-    //|<\/pre>|<code[^>]*>|<\/code>
     const result = eslintCodeStyle(value);
     setCodeValues(value);
     setPreviewData(result);
   }
 
   async function handlerSubmit() {
-    const payload = {
+    let payload = {
       title,
       description,
       content: codeValues,
@@ -51,13 +74,24 @@ export default function CreationPage() {
       author: getCookie(document.cookie, "account"),
       avatar_url: getCookie(document.cookie, "avatar_url"),
     };
-    const result = await CreateBlog(payload);
-
-    console.log(payload, result);
+    if (oldblog) {
+      payload = {
+        ...oldblog,
+        ...payload,
+      };
+    }
+    if (oldblog) {
+      const result = await UpdateBlog(payload);
+    } else {
+      const result = await CreateBlog(payload);
+    }
+    const refreshBlog = new CustomEvent("refreshBlog");
+    document.dispatchEvent(refreshBlog);
+    console.log(payload);
   }
   async function handlerUploadImage(files) {
     if (files.length === 0) {
-      setFiles1([]);
+      setFiles([]);
       setBgimg("");
       return;
     }
@@ -66,11 +100,11 @@ export default function CreationPage() {
     const result: any = await UploadFiles(data);
     console.log("UploadFiles", result);
     setBgimg(result.data.url);
-    setFiles1(files);
+    setFiles(files);
   }
   return (
     <>
-      <div style={{ margin: "20px" }}>
+      <div style={{ margin: "20px", overflow: "auto" }}>
         <Card>
           <div className="flex justify-end mb-[20px]">
             <Button theme="primary" style={{ marginRight: "4px" }}>
@@ -82,25 +116,38 @@ export default function CreationPage() {
           </div>
           <div>
             {/* <Form> */}
-            <FormItem label="标题" labelAlign="left">
-              <Input value={title} onChange={setTitle}></Input>
+            <FormItem label="标题" labelAlign="left" initialData={title}>
+              <div className="w-full">
+                <Input value={title} onChange={setTitle}></Input>
+              </div>
             </FormItem>
-            <FormItem label="博客描述" labelAlign="left">
-              <Input value={description} onChange={setDescription}></Input>
+            <FormItem
+              label="博客描述"
+              labelAlign="left"
+              initialData={description}
+            >
+              <div className="w-full">
+                <Textarea
+                  value={description}
+                  onChange={setDescription}
+                ></Textarea>
+              </div>
             </FormItem>
             <FormItem label="封面图" labelAlign="left">
-              <Upload
-                files={files1}
-                onChange={handlerUploadImage}
-                theme="image"
-                accept="image/*"
-                autoUpload={false}
-                locale={{
-                  triggerUploadText: {
-                    image: "请选择图片",
-                  },
-                }}
-              />
+              <div>
+                <Upload
+                  files={files}
+                  onChange={handlerUploadImage}
+                  theme="image"
+                  accept="image/*"
+                  autoUpload={false}
+                  locale={{
+                    triggerUploadText: {
+                      image: "请选择图片",
+                    },
+                  }}
+                />
+              </div>
               {/* <Input value={bgImg} onChange={setBgimg}></Input> */}
             </FormItem>
             {/* </Form> */}

@@ -13,9 +13,10 @@ const router = createHashRouter([
     element: <Auth children={<Index />}></Auth>,
     children: [],
     ErrorBoundary: ErrorBoundaryPage,
+    id: "index",
   },
   {
-    path: "/create-page",
+    path: "/create-page/:articleId?",
     element: <Auth children={<CreationPage />}></Auth>,
     children: [],
     ErrorBoundary: ErrorBoundaryPage,

@@ -77,3 +77,8 @@ export async function UploadFiles(params = {}) {
   const result = await requestFile('/upload/file', "", params);
   return result;
 }
+
+export async function UpdateBlog(params = {}) {
+  const result = await request('/blogs/update', "", params);
+  return result;
+}

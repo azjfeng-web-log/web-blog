@@ -41,4 +41,22 @@ export class BlogsController {
         }   
     }
   }
+  @UseGuards(AuthGuard)
+  @Post('update')
+  @HttpCode(HttpStatus.OK)
+  async updateBlog(@Body() body: any) {
+    try {
+        const result = await this.blogsService.update(body);
+        return {
+            status: 0,
+            message: 'success',
+            data: result
+        };
+    } catch (error) {
+        return {
+            status: 10001,
+            message: error.message
+        }
+    }
+    }
 }

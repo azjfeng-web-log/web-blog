@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FileIcon, Dashboard1Icon, MapEditIcon } from "tdesign-icons-react";
 import { Menu } from "tdesign-react";
 import { useNavigate } from "react-router-dom";
+import { useIndexStore } from "@src/store";
 
 const { MenuItem, SubMenu } = Menu;
 
@@ -12,7 +13,9 @@ const routerMap = {
 
 export default function NavAsideMenu() {
   const navigate = useNavigate();
-  const [menuIndex, setMenuIndex] = useState("index");
+  // const [menuIndex, setMenuIndex] = useState("index");
+  const menuIndex = useIndexStore((state) => state.menuIndex);
+  const setMenuIndex = useIndexStore((state) => state.setMenuIndex);
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {

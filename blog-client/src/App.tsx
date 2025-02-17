@@ -27,6 +27,7 @@ export default function App() {
   }, []);
 
   useEffect(() => {
+    document.addEventListener('refreshBlog', ()=> queryBlog(), false);
     async function queryBlog() {
       try {
         const result: any = await QueryBlog({});

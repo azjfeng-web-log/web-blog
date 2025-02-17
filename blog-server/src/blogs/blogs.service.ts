@@ -27,4 +27,9 @@ export class BlogsService {
     t_data.link_id = uuidv4();
     return await this.BlogsRepository.save(t_data);
   }
+
+  async update(body: any): Promise<any> {
+    const t_data = {...body};
+    return await this.BlogsRepository.save(t_data);
+  }
 }

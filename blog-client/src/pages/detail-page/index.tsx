@@ -66,7 +66,11 @@ export default function DetailPage() {
             </BreadcrumbItem>
           </Breadcrumb>
           <ReactQuillPreview
-            children={eslintCodeStyle(detail?.content || "")}
+            children={eslintCodeStyle(
+              `              <img src=${detail.bg_url} alt="" class="mb-[20px]" />${
+                detail?.content || ""
+              }`
+            )}
           ></ReactQuillPreview>
         </>
       ) : (

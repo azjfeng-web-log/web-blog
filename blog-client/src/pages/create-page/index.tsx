@@ -1,15 +1,29 @@
 import React, { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { Card, Form, Input, Textarea, Upload } from "tdesign-react";
+import {
+  Card,
+  Form,
+  Input,
+  MessagePlugin,
+  Textarea,
+  Upload,
+} from "tdesign-react";
 import Button from "tdesign-react/es/button/Button";
 import { CreateBlog, UpdateBlog, UploadFiles } from "@src/common/request";
 
 import { getCookie, eslintCodeStyle } from "@src/utils/utils";
 import ReactQuillPreview from "@src/components/ReactQuillPreview";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useIndexStore } from "@src/store";
 const { FormItem } = Form;
+
+const TipMap = {
+  title: "请输入标题～",
+  description: "请输入描述文案～",
+  bgImg: "请上传背景图～",
+  codeValues: "请输入内容～",
+};
 
 const modules = {
   toolbar: [
@@ -30,6 +44,8 @@ const modules = {
   ],
 };
 export default function CreationPage() {
+  const navigate = useNavigate();
+  const setMenuIndex = useIndexStore((state) => state.setMenuIndex);
   const { articleId } = useParams();
   const blogs = useIndexStore((state) => state.blogs);
   const [codeValues, setCodeValues] = useState("");
@@ -65,7 +81,31 @@ export default function CreationPage() {
     setPreviewData(result);
   }
 
+  function Tips() {
+    if (!title) {
+      MessagePlugin.error(TipMap.title);
+      return false;
+    }
+    if (!description) {
+      MessagePlugin.error(TipMap.description);
+      return false;
+    }
+    if (!codeValues) {
+      MessagePlugin.error(TipMap.codeValues);
+      return false;
+    }
+    if (!bgImg) {
+      MessagePlugin.error(TipMap.bgImg);
+      return false;
+    }
+    return true;
+  }
+
   async function handlerSubmit() {
+    const isChecked = Tips();
+    if (!isChecked) {
+      return;
+    }
     let payload = {
       title,
       description,
@@ -88,6 +128,8 @@ export default function CreationPage() {
     const refreshBlog = new CustomEvent("refreshBlog");
     document.dispatchEvent(refreshBlog);
     console.log(payload);
+    setMenuIndex("index");
+    navigate("/");
   }
   async function handlerUploadImage(files) {
     if (files.length === 0) {

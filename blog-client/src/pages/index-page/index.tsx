@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { Layout, Card, Badge, Tag } from "tdesign-react";
 import { useNavigate } from "react-router-dom";
-import { TimeIcon, User1Icon } from "tdesign-icons-react";
+import { BrowseIcon, TimeIcon, User1Icon } from "tdesign-icons-react";
 import { useIndexStore } from "@src/store";
 const { Content } = Layout;
 
@@ -52,6 +52,9 @@ export default function Index() {
                       </span>
                       <span className="flex gap-[4px] items-center justify-center">
                         <TimeIcon /> {item.created_at}
+                      </span>
+                      <span className="flex gap-[4px] items-center justify-center">
+                        <BrowseIcon /> {item.view_num}
                       </span>
                     </div>
                     {/* <div className="card_blog_footer flex gap-[20px] justify-end mt-[10px]">

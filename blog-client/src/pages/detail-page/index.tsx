@@ -4,6 +4,7 @@ import { useIndexStore } from "@src/store";
 import ReactQuillPreview from "@src/components/ReactQuillPreview";
 import { eslintCodeStyle } from "@src/utils/utils";
 import { Breadcrumb, Empty } from "tdesign-react";
+import { UpdateBlogViewNum } from "@src/common/request";
 
 const { BreadcrumbItem } = Breadcrumb;
 
@@ -23,6 +24,19 @@ export default function DetailPage() {
     navigate(path);
   }
 
+  useEffect(() => {
+    async function update() {
+      await UpdateBlogViewNum({
+        link_id: articleId,
+      });
+      const refreshBlog = new CustomEvent("refreshBlog");
+      document.dispatchEvent(refreshBlog);
+    }
+    if (articleId) {
+      update();
+    }
+  }, [articleId]);
+
   return (
     <div
       className="blog-detail"
@@ -34,9 +48,7 @@ export default function DetailPage() {
             maxItemWidth="200px"
             style={{ marginBottom: "4px", color: "rgba(0, 0, 0, 0.9)" }}
           >
-            <BreadcrumbItem
-              onClick={() => handlerReCreatePage("index", '/')}
-            >
+            <BreadcrumbItem onClick={() => handlerReCreatePage("index", "/")}>
               首页
             </BreadcrumbItem>
             <BreadcrumbItem>{detail.author}</BreadcrumbItem>

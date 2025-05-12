@@ -82,3 +82,8 @@ export async function UpdateBlog(params = {}) {
   const result = await request('/blogs/update', "", params);
   return result;
 }
+
+export async function UpdateBlogViewNum(params = {}) {
+  const result = await request('/blogs/update/viewNum', "", params);
+  return result;
+}

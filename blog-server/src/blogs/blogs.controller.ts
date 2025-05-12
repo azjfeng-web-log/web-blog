@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AuthGuard } from '@src/auth/auth.guard';
 import { BlogsService } from './blogs.service';
 
@@ -10,17 +17,17 @@ export class BlogsController {
   @HttpCode(HttpStatus.OK)
   async createBlog(@Body() body: any) {
     try {
-        const result = await this.blogsService.create(body);
-        return {
-            status: 0,
-            message: 'success',
-            data: result
-        };
+      const result = await this.blogsService.create(body);
+      return {
+        status: 0,
+        message: 'success',
+        data: result,
+      };
     } catch (error) {
-        return {
-            status: 10001,
-            message: error.message
-        }   
+      return {
+        status: 10001,
+        message: error.message,
+      };
     }
   }
   @UseGuards(AuthGuard)
@@ -28,17 +35,17 @@ export class BlogsController {
   @HttpCode(HttpStatus.OK)
   async QueryBlog(@Body() body: any) {
     try {
-        const result = await this.blogsService.findAll();
-        return {
-            status: 0,
-            message: 'success',
-            data: result
-        };
+      const result = await this.blogsService.findAll();
+      return {
+        status: 0,
+        message: 'success',
+        data: result,
+      };
     } catch (error) {
-        return {
-            status: 10001,
-            message: error.message
-        }   
+      return {
+        status: 10001,
+        message: error.message,
+      };
     }
   }
   @UseGuards(AuthGuard)
@@ -46,17 +53,36 @@ export class BlogsController {
   @HttpCode(HttpStatus.OK)
   async updateBlog(@Body() body: any) {
     try {
-        const result = await this.blogsService.update(body);
-        return {
-            status: 0,
-            message: 'success',
-            data: result
-        };
+      const result = await this.blogsService.update(body);
+      return {
+        status: 0,
+        message: 'success',
+        data: result,
+      };
     } catch (error) {
-        return {
-            status: 10001,
-            message: error.message
-        }
+      return {
+        status: 10001,
+        message: error.message,
+      };
     }
+  }
+
+  @UseGuards(AuthGuard)
+  @Post('update/viewNum')
+  @HttpCode(HttpStatus.OK)
+  async updateBlogViewNum(@Body() body: any) {
+    try {
+      const result = await this.blogsService.updateViewNum(body.link_id);
+      return {
+        status: 0,
+        message: 'success',
+        data: result,
+      };
+    } catch (error) {
+      return {
+        status: 10001,
+        message: error.message,
+      };
     }
+  }
 }

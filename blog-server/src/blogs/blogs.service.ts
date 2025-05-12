@@ -32,4 +32,12 @@ export class BlogsService {
     const t_data = {...body};
     return await this.BlogsRepository.save(t_data);
   }
+
+  async updateViewNum(link_id: string): Promise<any> {
+    const t_data: any = await this.BlogsRepository.findOne({
+      where: { link_id: link_id },
+    });
+    t_data.view_num = t_data.view_num + 1;
+    return await this.BlogsRepository.save(t_data);
+  }
 }

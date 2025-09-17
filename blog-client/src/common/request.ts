@@ -46,7 +46,6 @@ export function requestFile(url: string, method?: string, params?: any) {
   });
 }
 
-
 export async function CheckLogin(url, params = {}) {
   const result = await request(url, "", params);
   return result;
@@ -58,32 +57,53 @@ export async function UseLogin(url, params = {}) {
 }
 
 export async function Logout() {
-  const result = await request('/auth/logout', "", {});
+  const result = await request("/auth/logout", "", {});
   return result;
 }
 
 export async function CreateBlog(params = {}) {
-  const result = await request('/blogs/create', "", params);
+  const result = await request("/blogs/create", "", params);
   return result;
 }
 
-
 export async function QueryBlog(params = {}) {
-  const result = await request('/blogs/query', "", params);
+  const result = await request("/blogs/query", "", params);
   return result;
 }
 
 export async function UploadFiles(params = {}) {
-  const result = await requestFile('/upload/file', "", params);
+  const result = await requestFile("/upload/file", "", params);
   return result;
 }
 
 export async function UpdateBlog(params = {}) {
-  const result = await request('/blogs/update', "", params);
+  const result = await request("/blogs/update", "", params);
   return result;
 }
 
 export async function UpdateBlogViewNum(params = {}) {
-  const result = await request('/blogs/update/viewNum', "", params);
+  const result = await request("/blogs/update/viewNum", "", params);
+  return result;
+}
+
+export async function SubmitHunyuanImageJob(params = {}) {
+  const result = await request("/creation/hunyuan", "", {
+    payload: params,
+    action: 'SubmitHunyuanImageJob',
+    service: 'hunyuan',
+    version: '2023-09-01',
+    region: 'ap-guangzhou',
+  });
+  return result;
+}
+
+export async function QueryHunyuanImageJob(params = {}) {
+  const result = await request("/creation/hunyuan", "", {
+    payload: params,
+    action: 'QueryHunyuanImageJob',
+    service: 'hunyuan',
+    version: '2023-09-01',
+    region: 'ap-guangzhou',
+  });
   return result;
 }

@@ -9,6 +9,7 @@ const { MenuItem, SubMenu } = Menu;
 const routerMap = {
   index: "/",
   "create-page": "/create-page",
+  "creation-hunyuan-image": "/creation/hunyuan-image"
 };
 
 export default function NavAsideMenu() {
@@ -48,6 +49,9 @@ export default function NavAsideMenu() {
         </MenuItem>
         <MenuItem icon={<MapEditIcon />} value="create-page">
           创作页
+        </MenuItem>
+        <MenuItem icon={<MapEditIcon />} value="creation-hunyuan-image">
+          混元生图
         </MenuItem>
         {/* <SubMenu
           icon={<MapEditIcon />}

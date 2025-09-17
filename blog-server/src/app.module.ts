@@ -2,13 +2,15 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './modules/users/users.module';
 import { CheckLoginMiddleware } from './middleware/checkLogin.middlerware';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import {dbConfig} from '@src/database/db.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BlogsModule } from './blogs/blogs.module';
-import { CommentModule } from './comments/comments.module';
+import { BlogsModule } from '@src/modules/blogs/blogs.module';
+import { CommentModule } from '@src/modules/comments/comments.module';
+import { CreationService } from '@src/modules/creation/creation.service';
+import { CreationModule } from '@src/modules/creation/creation.module';
 
 @Module({
   imports: [
@@ -19,6 +21,7 @@ import { CommentModule } from './comments/comments.module';
     UsersModule,
     BlogsModule,
     CommentModule,
+    CreationModule,
   ],
   controllers: [AppController],
   providers: [

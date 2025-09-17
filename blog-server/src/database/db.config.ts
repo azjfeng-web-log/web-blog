@@ -1,6 +1,6 @@
-import { UsersConfig } from '@src/users/users.entity';
-import { BlogsConfig } from '@src/blogs/blogs.entity';
-import { CommentsConfig } from '@src/comments/comments.entity';
+import { UsersConfig } from '@src/modules/users/users.entity';
+import { BlogsConfig } from '@src/modules/blogs/blogs.entity';
+import { CommentsConfig } from '@src/modules/comments/comments.entity';
 
 function getDataBase(envName: string): string {
   switch (envName) {

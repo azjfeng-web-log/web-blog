@@ -1,11 +1,12 @@
 import React from "react";
 import { createHashRouter } from "react-router-dom";
+import ErrorBoundaryPage from "@src/components/ErrorBoundaryPage";
 import Index from "@src/pages/index-page/index";
 import Login from "@src/pages/login-page/index";
 import Auth from "@src/components/Auth";
 import CreationPage from "@src/pages/create-page/index";
 import DetailPage from "@src/pages/detail-page";
-import ErrorBoundaryPage from "@src/components/ErrorBoundaryPage";
+import { HunYuanImage } from "@src/pages/creation-ai-page/hunyuan-image";
 
 const router = createHashRouter([
   {
@@ -14,6 +15,12 @@ const router = createHashRouter([
     children: [],
     ErrorBoundary: ErrorBoundaryPage,
     id: "index",
+  },
+  {
+    path: "/login",
+    element: <Login />,
+    children: [],
+    ErrorBoundary: ErrorBoundaryPage,
   },
   {
     path: "/create-page/:articleId?",
@@ -28,8 +35,8 @@ const router = createHashRouter([
     ErrorBoundary: ErrorBoundaryPage,
   },
   {
-    path: "/login",
-    element: <Login />,
+    path: "/creation/hunyuan-image",
+    element: <Auth children={<HunYuanImage />}></Auth>,
     children: [],
     ErrorBoundary: ErrorBoundaryPage,
   },

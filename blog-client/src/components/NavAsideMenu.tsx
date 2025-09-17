@@ -20,8 +20,8 @@ export default function NavAsideMenu() {
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
-      const index = hash.split("/")[1];
-      setMenuIndex(index || "index");
+      const index = hash.split("/").slice(1);
+      setMenuIndex(index.join('-') || "index");
     }
   }, []);
   function onChange(value: any) {

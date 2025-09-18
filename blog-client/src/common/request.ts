@@ -86,24 +86,28 @@ export async function UpdateBlogViewNum(params = {}) {
   return result;
 }
 
-export async function SubmitHunyuanImageJob(params = {}) {
+export async function SubmitHunyuanImageJob(params = {}, secretId, secretKey) {
   const result = await request("/creation/hunyuan", "", {
     payload: params,
     action: 'SubmitHunyuanImageJob',
     service: 'hunyuan',
     version: '2023-09-01',
     region: 'ap-guangzhou',
+    secretId,
+    secretKey,
   });
   return result;
 }
 
-export async function QueryHunyuanImageJob(params = {}) {
+export async function QueryHunyuanImageJob(params = {}, secretId, secretKey) {
   const result = await request("/creation/hunyuan", "", {
     payload: params,
     action: 'QueryHunyuanImageJob',
     service: 'hunyuan',
     version: '2023-09-01',
     region: 'ap-guangzhou',
+    secretId,
+    secretKey,
   });
   return result;
 }

@@ -16,7 +16,7 @@ export class CreationController {
   @Post('hunyuan')
   @HttpCode(HttpStatus.OK)
   async hunyuanImage(@Body() body: any) {
-    const { action, payload, service, version, region } = body;
+    const { action, payload, service, version, region, secretKey, secretId } = body;
     const result = await this.creationService.hunyuanImage(payload, {
       action,
       service,
@@ -24,6 +24,8 @@ export class CreationController {
       region,
       host: `${service}.tencentcloudapi.com`,
       url: `https://${service}.tencentcloudapi.com`,
+      secretId: secretId,
+      secretKey: secretKey,
     });
     return {
       code: 0,

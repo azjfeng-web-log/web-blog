@@ -19,12 +19,14 @@ export class AppController {
   @Public()
   @Post('upload/file')
   @UseInterceptors(FileInterceptor('file', localDiskConfig)) // 'file' 对应前端的字段名
-  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+  async uploadFile(@UploadedFile() file: Express.Multer.File, @Req() req: Request) {
+    const origin = (req.headers as any).origin;
+    console.log('origin', origin);
     return {
       message: 'success',
       status: 0,
       data: {
-        url: `http://127.0.0.1:3000/static/${file.path}`, // 动态URL构造
+        url: `${origin}/static/${file.path}`, // 动态URL构造
         meta: file.originalname
       }
     };

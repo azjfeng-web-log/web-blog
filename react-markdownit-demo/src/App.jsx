@@ -571,6 +571,255 @@ targetElement.style.display = 'none';
                     className="executable-demo"
                   />
                 </div>
+
+                <div className="example-item">
+                  <h3>⚛️ React 组件演示</h3>
+                  <EnhancedMarkdownRenderer 
+                    content={`## React 基础组件
+
+\`\`\`jsx
+function Welcome({ name = "World" }) {
+  return (
+    <div style={{
+      padding: '20px',
+      background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+      color: 'white',
+      borderRadius: '8px',
+      textAlign: 'center'
+    }}>
+      <h2>Hello, {name}!</h2>
+      <p>这是一个 React 组件演示</p>
+    </div>
+  );
+}
+
+const root = createRoot(document.getElementById('root'));
+root.render(<Welcome name="React" />);
+\`\`\``}
+                    enableCodeExecution={true}
+                    className="executable-demo"
+                  />
+                </div>
+
+                <div className="example-item">
+                  <h3>🔢 React 计数器</h3>
+                  <EnhancedMarkdownRenderer 
+                    content={`## 交互式计数器
+
+\`\`\`jsx
+function Counter() {
+  const [count, setCount] = useState(0);
+  
+  return (
+    <div className="container">
+      <div className="card">
+        <h3>计数器: {count}</h3>
+        <div className="flex">
+          <button 
+            className="btn btn-success"
+            onClick={() => setCount(count + 1)}
+          >
+            +1
+          </button>
+          <button 
+            className="btn btn-warning"
+            onClick={() => setCount(count - 1)}
+          >
+            -1
+          </button>
+          <button 
+            className="btn btn-danger"
+            onClick={() => setCount(0)}
+          >
+            重置
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const root = createRoot(document.getElementById('root'));
+root.render(<Counter />);
+\`\`\``}
+                    enableCodeExecution={true}
+                    className="executable-demo"
+                  />
+                </div>
+
+                <div className="example-item">
+                  <h3>📝 React 表单</h3>
+                  <EnhancedMarkdownRenderer 
+                    content={`## 联系表单组件
+
+\`\`\`jsx
+function ContactForm() {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  
+  const [submitted, setSubmitted] = useState(false);
+  
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+  
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    console.log('表单数据:', formData);
+  };
+  
+  if (submitted) {
+    return (
+      <div className="alert alert-success">
+        <h3>提交成功!</h3>
+        <p>感谢 {formData.name} 的留言！</p>
+        <button 
+          className="btn"
+          onClick={() => setSubmitted(false)}
+        >
+          重新填写
+        </button>
+      </div>
+    );
+  }
+  
+  return (
+    <div className="container">
+      <form onSubmit={handleSubmit} className="card">
+        <h3>联系我们</h3>
+        
+        <input
+          type="text"
+          name="name"
+          placeholder="您的姓名"
+          value={formData.name}
+          onChange={handleChange}
+          className="input"
+          required
+        />
+        
+        <input
+          type="email"
+          name="email"
+          placeholder="您的邮箱"
+          value={formData.email}
+          onChange={handleChange}
+          className="input"
+          required
+        />
+        
+        <textarea
+          name="message"
+          placeholder="您的留言"
+          value={formData.message}
+          onChange={handleChange}
+          className="input"
+          rows="4"
+          required
+        />
+        
+        <button type="submit" className="btn btn-success">
+          提交留言
+        </button>
+      </form>
+    </div>
+  );
+}
+
+const root = createRoot(document.getElementById('root'));
+root.render(<ContactForm />);
+\`\`\``}
+                    enableCodeExecution={true}
+                    className="executable-demo"
+                  />
+                </div>
+
+                <div className="example-item">
+                  <h3>🎣 React Hooks 演示</h3>
+                  <EnhancedMarkdownRenderer 
+                    content={`## Hooks 综合演示
+
+\`\`\`jsx
+function HooksDemo() {
+  const [count, setCount] = useState(0);
+  const [name, setName] = useState('');
+  const inputRef = useRef(null);
+  
+  // 使用 useEffect 监听 count 变化
+  useEffect(() => {
+    document.title = \`计数: \${count}\`;
+    console.log('Count changed to:', count);
+  }, [count]);
+  
+  // 使用 useCallback 优化函数
+  const handleIncrement = useCallback(() => {
+    setCount(prev => prev + 1);
+  }, []);
+  
+  // 使用 useMemo 计算派生状态
+  const isEven = useMemo(() => {
+    return count % 2 === 0;
+  }, [count]);
+  
+  const focusInput = () => {
+    inputRef.current?.focus();
+  };
+  
+  return (
+    <div className="container">
+      <div className="card">
+        <h3>React Hooks 演示</h3>
+        
+        <div className="mb-4">
+          <p>当前计数: <strong>{count}</strong></p>
+          <p>数字是 <strong>{isEven ? '偶数' : '奇数'}</strong></p>
+          
+          <div className="flex">
+            <button className="btn btn-success" onClick={handleIncrement}>
+              增加
+            </button>
+            <button className="btn btn-warning" onClick={() => setCount(count - 1)}>
+              减少
+            </button>
+            <button className="btn btn-danger" onClick={() => setCount(0)}>
+              重置
+            </button>
+          </div>
+        </div>
+        
+        <div className="mb-4">
+          <input
+            ref={inputRef}
+            type="text"
+            placeholder="输入您的姓名"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="input"
+          />
+          <button className="btn" onClick={focusInput}>
+            聚焦输入框
+          </button>
+          {name && <p>Hello, {name}! 👋</p>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const root = createRoot(document.getElementById('root'));
+root.render(<HooksDemo />);
+\`\`\``}
+                    enableCodeExecution={true}
+                    className="executable-demo"
+                  />
+                </div>
               </div>
 
               <div className="demo-info">

@@ -1,7 +1,9 @@
 import React, { useMemo, useEffect, useRef } from 'react';
+import { createRoot } from 'react-dom/client';
 import MarkdownIt from 'markdown-it';
 import DOMPurify from 'dompurify';
 import CodeExecutor from './CodeExecutor';
+import ReactCodeExecutor from './ReactCodeExecutor';
 
 // 导入插件
 import markdownItAbbr from 'markdown-it-abbr';
@@ -83,7 +85,7 @@ const EnhancedMarkdownRenderer = ({
     ...(enableCodeExecution ? [{
       plugin: markdownItExecutable,
       options: {
-        executableLanguages: ['html', 'css', 'javascript', 'js', 'jsx', 'vue', 'react'],
+        executableLanguages: ['html', 'css', 'javascript', 'js', 'jsx', 'react', 'vue'],
         autoRun: true,
         enableConsole: true,
         defaultHeight: '400px'
@@ -212,8 +214,9 @@ const EnhancedMarkdownRenderer = ({
     if (!enableCodeExecution || !containerRef.current) return;
 
     const container = containerRef.current;
+    
+    // 处理普通代码执行器
     const executorWrappers = container.querySelectorAll('.code-executor-wrapper');
-
     executorWrappers.forEach((wrapper, index) => {
       // 避免重复初始化
       if (wrapper.dataset.initialized) return;
@@ -238,17 +241,15 @@ const EnhancedMarkdownRenderer = ({
         key: `executor-${index}`
       });
 
-      // 使用 React 18 的新 API 或回退到旧 API
-      if (window.ReactDOM?.createRoot) {
-        const root = window.ReactDOM.createRoot(wrapper);
+      // 使用 React 18 的 createRoot API
+      try {
+        const root = createRoot(wrapper);
         root.render(executorElement);
-      } else if (window.ReactDOM?.render) {
-        window.ReactDOM.render(executorElement, wrapper);
-      } else {
-        // 如果 ReactDOM 不可用，显示错误信息
+      } catch (err) {
+        console.error('代码执行器渲染失败:', err);
         wrapper.innerHTML = `
           <div class="code-executor-error">
-            <p>代码执行器需要 React 环境支持</p>
+            <p>代码执行器渲染失败: ${err.message}</p>
             <details>
               <summary>查看代码</summary>
               <pre><code>${htmlCode || cssCode || jsCode}</code></pre>
@@ -260,13 +261,61 @@ const EnhancedMarkdownRenderer = ({
       wrapper.dataset.initialized = 'true';
     });
 
+    // 处理 React 代码执行器
+    const reactWrappers = container.querySelectorAll('.react-executor-wrapper');
+    reactWrappers.forEach((wrapper, index) => {
+      // 避免重复初始化
+      if (wrapper.dataset.initialized) return;
+      
+      const code = decodeURIComponent(wrapper.dataset.code || '');
+      const language = wrapper.dataset.language || 'jsx';
+      const title = wrapper.dataset.title || 'React 组件演示';
+      const height = wrapper.dataset.height || '400px';
+      const autoRun = wrapper.dataset.autoRun === 'true';
+      const enableConsole = wrapper.dataset.console === 'true';
+
+      // 创建 React 代码执行器元素
+      const reactExecutorElement = React.createElement(ReactCodeExecutor, {
+        code,
+        language,
+        title,
+        height,
+        showCode: true,
+        showPreview: true,
+        onError: (error) => {
+          console.error('React 代码执行错误:', error);
+        },
+        onSuccess: (message) => {
+          console.log('React 代码执行成功:', message);
+        },
+        key: `react-executor-${index}`
+      });
+
+      // 使用 React 18 的新 API 或回退到旧 API
+      if (window.ReactDOM?.createRoot) {
+        const root = window.ReactDOM.createRoot(wrapper);
+        root.render(reactExecutorElement);
+      } else if (window.ReactDOM?.render) {
+        window.ReactDOM.render(reactExecutorElement, wrapper);
+      } else {
+        // 如果 ReactDOM 不可用，显示错误信息
+        wrapper.innerHTML = `
+          <div class="code-executor-error">
+            <p>React 代码执行器需要 React 环境支持</p>
+            <details>
+              <summary>查看代码</summary>
+              <pre><code>${code}</code></pre>
+            </details>
+          </div>
+        `;
+      }
+
+      wrapper.dataset.initialized = 'true';
+    });
+
     // 清理函数
     return () => {
-      executorWrappers.forEach(wrapper => {
-        if (wrapper.dataset.initialized && window.ReactDOM?.unmountComponentAtNode) {
-          window.ReactDOM.unmountComponentAtNode(wrapper);
-        }
-      });
+      // React 18 不需要手动清理，createRoot 会自动处理
     };
   }, [renderedHtml, enableCodeExecution]);
 
@@ -384,40 +433,55 @@ function setupCustomRenderers(md, onLinkClick) {
       const showConsole = params.console !== undefined ? params.console : true;
 
       // 根据语言类型生成执行器
-      let htmlCode = '';
-      let cssCode = '';
-      let jsCode = '';
-
-      if (langName.toLowerCase() === 'html') {
-        htmlCode = content;
-      } else if (langName.toLowerCase() === 'css') {
-        cssCode = content;
-        htmlCode = `<div class="css-demo">
-          <h3>CSS 样式演示</h3>
-          <p>这是一个段落文本。</p>
-          <button>按钮</button>
-          <div class="box">盒子元素</div>
+      if (['jsx', 'react'].includes(langName.toLowerCase())) {
+        // React/JSX 代码执行器
+        return `<div class="executable-code-block">
+          <div class="react-executor-wrapper" 
+               data-code="${encodeURIComponent(content)}"
+               data-language="${langName.toLowerCase()}"
+               data-title="${md.utils.escapeHtml(title)}"
+               data-height="${height}"
+               data-auto-run="${autoRun}"
+               data-console="${showConsole}">
+          </div>
         </div>`;
-      } else if (['javascript', 'js'].includes(langName.toLowerCase())) {
-        jsCode = content;
-        htmlCode = `<div class="js-demo">
-          <h3>JavaScript 演示</h3>
-          <button id="demo-btn">点击我</button>
-          <div id="output"></div>
+      } else {
+        // 普通代码执行器 (HTML/CSS/JS)
+        let htmlCode = '';
+        let cssCode = '';
+        let jsCode = '';
+
+        if (langName.toLowerCase() === 'html') {
+          htmlCode = content;
+        } else if (langName.toLowerCase() === 'css') {
+          cssCode = content;
+          htmlCode = `<div class="css-demo">
+            <h3>CSS 样式演示</h3>
+            <p>这是一个段落文本。</p>
+            <button>按钮</button>
+            <div class="box">盒子元素</div>
+          </div>`;
+        } else if (['javascript', 'js'].includes(langName.toLowerCase())) {
+          jsCode = content;
+          htmlCode = `<div class="js-demo">
+            <h3>JavaScript 演示</h3>
+            <button id="demo-btn">点击我</button>
+            <div id="output"></div>
+          </div>`;
+        }
+
+        return `<div class="executable-code-block">
+          <div class="code-executor-wrapper" 
+               data-html="${encodeURIComponent(htmlCode)}"
+               data-css="${encodeURIComponent(cssCode)}"
+               data-js="${encodeURIComponent(jsCode)}"
+               data-title="${md.utils.escapeHtml(title)}"
+               data-height="${height}"
+               data-auto-run="${autoRun}"
+               data-console="${showConsole}">
+          </div>
         </div>`;
       }
-
-      return `<div class="executable-code-block">
-        <div class="code-executor-wrapper" 
-             data-html="${encodeURIComponent(htmlCode)}"
-             data-css="${encodeURIComponent(cssCode)}"
-             data-js="${encodeURIComponent(jsCode)}"
-             data-title="${md.utils.escapeHtml(title)}"
-             data-height="${height}"
-             data-auto-run="${autoRun}"
-             data-console="${showConsole}">
-        </div>
-      </div>`;
     }
 
     // 普通代码块，添加复制功能

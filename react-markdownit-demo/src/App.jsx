@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import MarkdownEditor from './components/MarkdownEditor';
 import MarkdownRenderer from './components/MarkdownRenderer';
+import EnhancedMarkdownRenderer from './components/EnhancedMarkdownRenderer';
+import CodeExecutor from './components/CodeExecutor';
 import './App.css';
 
 // 示例 Markdown 内容
@@ -215,10 +217,11 @@ const customPlugins = [
 **感谢使用 React + MarkdownIt！** 🎉`;
 
 function App() {
-  const [activeDemo, setActiveDemo] = useState('editor');
+  const [activeDemo, setActiveDemo] = useState('executable');
   const [content, setContent] = useState(exampleMarkdown);
 
   const demos = [
+    { id: 'executable', name: '代码执行演示', icon: '🚀' },
     { id: 'editor', name: '实时编辑器', icon: '✏️' },
     { id: 'renderer', name: '渲染器演示', icon: '🎨' },
     { id: 'examples', name: '功能示例', icon: '📚' }
@@ -282,6 +285,308 @@ function App() {
 
       <main className="app-main">
         <div className="container">
+          {activeDemo === 'executable' && (
+            <div className="demo-section">
+              <div className="section-header">
+                <h2>🚀 代码执行演示</h2>
+                <p>在 Markdown 中嵌入可执行的 HTML、CSS、JavaScript 代码</p>
+              </div>
+              
+              <div className="executable-examples">
+                <div className="example-item">
+                  <h3>HTML 交互演示</h3>
+                  <EnhancedMarkdownRenderer 
+                    content={`\`\`\`html
+<div style="padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 10px; text-align: center;">
+  <h3>🌍 Hello World!</h3>
+  <p>这是一个可执行的 HTML 代码块</p>
+  <button onclick="alert('Hello from MarkdownIt!')" style="background: white; color: #667eea; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold;">点击我</button>
+</div>
+\`\`\``}
+                    enableCodeExecution={true}
+                    className="executable-demo"
+                  />
+                </div>
+
+                <div className="example-item">
+                  <h3>CSS 样式演示</h3>
+                  <EnhancedMarkdownRenderer 
+                    content={`\`\`\`css
+.css-demo {
+  font-family: 'Arial', sans-serif;
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+  border-radius: 15px;
+  color: white;
+  text-align: center;
+}
+
+.css-demo h3 {
+  margin-top: 0;
+  font-size: 24px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.css-demo button {
+  background: white;
+  color: #ff6b6b;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+.css-demo button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+}
+
+.css-demo .box {
+  width: 100px;
+  height: 100px;
+  background: rgba(255,255,255,0.2);
+  margin: 20px auto;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+\`\`\``}
+                    enableCodeExecution={true}
+                    className="executable-demo"
+                  />
+                </div>
+
+                <div className="example-item">
+                  <h3>JavaScript 交互演示</h3>
+                  <EnhancedMarkdownRenderer 
+                    content={`\`\`\`javascript
+// 获取元素
+const btn = document.getElementById('demo-btn');
+const output = document.getElementById('output');
+
+// 计数器
+let count = 0;
+
+// 点击事件
+btn.addEventListener('click', function() {
+  count++;
+  output.innerHTML = \`
+    <div style="
+      padding: 15px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border-radius: 8px;
+      margin-top: 10px;
+      text-align: center;
+    ">
+      <h4>🎉 按钮被点击了 \${count} 次!</h4>
+      <p>当前时间: \${new Date().toLocaleTimeString()}</p>
+    </div>
+  \`;
+});
+
+// 自动显示欢迎信息
+setTimeout(() => {
+  console.log('JavaScript 代码执行成功! 🚀');
+  output.innerHTML = \`
+    <div style="
+      padding: 10px;
+      background: #e8f5e8;
+      color: #2d5a2d;
+      border-radius: 5px;
+      border-left: 4px solid #4caf50;
+    ">
+      ✅ JavaScript 已加载，点击按钮试试看！
+    </div>
+  \`;
+}, 100);
+\`\`\``}
+                    enableCodeExecution={true}
+                    className="executable-demo"
+                  />
+                </div>
+
+                <div className="example-item">
+                  <h3>复杂交互游戏</h3>
+                  <EnhancedMarkdownRenderer 
+                    content={`\`\`\`html
+<div class="interactive-demo">
+  <h3>🎮 点击游戏</h3>
+  <div class="game-area">
+    <div class="score">得分: <span id="score">0</span></div>
+    <div class="target" id="target">🎯</div>
+    <button id="start-game">开始游戏</button>
+  </div>
+</div>
+
+<style>
+.interactive-demo {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #f0f8ff;
+  border-radius: 15px;
+  border: 2px solid #4169e1;
+}
+
+.game-area {
+  position: relative;
+  height: 300px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.score {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: white;
+  font-weight: bold;
+  font-size: 18px;
+  z-index: 10;
+}
+
+.target {
+  position: absolute;
+  font-size: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+}
+
+.target:hover {
+  transform: scale(1.2);
+}
+
+#start-game {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#start-game:hover {
+  background: #ff5252;
+  transform: translateX(-50%) translateY(-2px);
+}
+</style>
+
+<script>
+let gameScore = 0;
+let gameActive = false;
+let targetElement = document.getElementById('target');
+let scoreElement = document.getElementById('score');
+let startButton = document.getElementById('start-game');
+
+function moveTarget() {
+  if (!gameActive) return;
+  
+  const gameArea = document.querySelector('.game-area');
+  const maxX = gameArea.clientWidth - 50;
+  const maxY = gameArea.clientHeight - 50;
+  
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
+  
+  targetElement.style.left = x + 'px';
+  targetElement.style.top = y + 'px';
+}
+
+targetElement.addEventListener('click', function() {
+  if (!gameActive) return;
+  
+  gameScore += 10;
+  scoreElement.textContent = gameScore;
+  
+  // 添加点击效果
+  this.style.transform = 'scale(1.5)';
+  setTimeout(() => {
+    this.style.transform = 'scale(1)';
+  }, 150);
+  
+  moveTarget();
+  
+  console.log(\`目标被击中! 当前得分: \${gameScore}\`);
+});
+
+startButton.addEventListener('click', function() {
+  if (gameActive) {
+    // 停止游戏
+    gameActive = false;
+    this.textContent = '开始游戏';
+    targetElement.style.display = 'none';
+    console.log(\`游戏结束! 最终得分: \${gameScore}\`);
+  } else {
+    // 开始游戏
+    gameActive = true;
+    gameScore = 0;
+    scoreElement.textContent = gameScore;
+    this.textContent = '停止游戏';
+    targetElement.style.display = 'block';
+    moveTarget();
+    
+    // 自动移动目标
+    const moveInterval = setInterval(() => {
+      if (!gameActive) {
+        clearInterval(moveInterval);
+        return;
+      }
+      moveTarget();
+    }, 2000);
+    
+    console.log('游戏开始! 点击移动的目标来得分!');
+  }
+});
+
+// 初始化
+targetElement.style.display = 'none';
+</script>
+\`\`\``}
+                    enableCodeExecution={true}
+                    className="executable-demo"
+                  />
+                </div>
+              </div>
+
+              <div className="demo-info">
+                <h3>✨ 功能特性</h3>
+                <ul>
+                  <li>🎯 <strong>实时执行</strong> - HTML、CSS、JavaScript 代码立即执行</li>
+                  <li>🛡️ <strong>安全沙箱</strong> - 代码在 iframe 中安全执行</li>
+                  <li>📱 <strong>响应式设计</strong> - 支持移动端和桌面端</li>
+                  <li>🔧 <strong>控制台支持</strong> - 显示 JavaScript 输出和错误</li>
+                  <li>🎨 <strong>语法高亮</strong> - 代码块语法高亮显示</li>
+                  <li>⚡ <strong>高性能</strong> - 优化的渲染和执行性能</li>
+                </ul>
+              </div>
+            </div>
+          )}
+
           {activeDemo === 'editor' && (
             <div className="demo-section">
               <div className="section-header">

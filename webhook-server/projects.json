@@ -1,0 +1,32 @@
+{
+  "projects": {
+    "web-blog": {
+      "name": "Web Blog Project",
+      "repository": "your-username/web-blog",
+      "branch": "main",
+      "path": "/Users/jameifeng/codeProject/personerCode/web-blog",
+      "scripts": {
+        "deploy": "./scripts/deploy-blog.sh",
+        "rollback": "./scripts/rollback-blog.sh"
+      },
+      "services": ["blog-server", "blog-client"],
+      "notifications": {
+        "enabled": true,
+        "webhook_url": ""
+      }
+    },
+    "example-project": {
+      "name": "Example Project",
+      "repository": "your-username/example-project",
+      "branch": "main",
+      "path": "/path/to/example/project",
+      "scripts": {
+        "deploy": "./scripts/deploy-example.sh"
+      },
+      "services": ["example-service"],
+      "notifications": {
+        "enabled": false
+      }
+    }
+  }
+}

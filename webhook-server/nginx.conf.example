@@ -1,0 +1,122 @@
+# Nginx 配置示例 - GitHub Webhook 服务
+# 将此配置添加到你的 Nginx 配置中
+
+# 上游服务器配置
+upstream webhook_backend {
+    server 127.0.0.1:3001;
+    # 如果有多个实例，可以添加更多服务器
+    # server 127.0.0.1:3002;
+}
+
+# HTTP 重定向到 HTTPS (可选)
+server {
+    listen 80;
+    server_name your-domain.com;
+    return 301 https://$server_name$request_uri;
+}
+
+# HTTPS 配置
+server {
+    listen 443 ssl http2;
+    server_name your-domain.com;
+
+    # SSL 证书配置
+    ssl_certificate /path/to/your/certificate.crt;
+    ssl_certificate_key /path/to/your/private.key;
+    
+    # SSL 安全配置
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384;
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 10m;
+
+    # 安全头
+    add_header X-Frame-Options DENY;
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    # 日志配置
+    access_log /var/log/nginx/webhook_access.log;
+    error_log /var/log/nginx/webhook_error.log;
+
+    # GitHub IP 白名单 (可选，增强安全性)
+    # 允许 GitHub Webhook IP 范围
+    allow 140.82.112.0/20;
+    allow 185.199.108.0/22;
+    allow 192.30.252.0/22;
+    allow 143.55.64.0/20;
+    # 允许本地访问 (用于测试)
+    allow 127.0.0.1;
+    # 拒绝其他所有 IP
+    # deny all;
+
+    # Webhook 路由
+    location /webhook {
+        # 限制请求方法
+        limit_except POST {
+            deny all;
+        }
+
+        # 请求体大小限制
+        client_max_body_size 1M;
+
+        # 代理配置
+        proxy_pass http://webhook_backend;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_cache_bypass $http_upgrade;
+
+        # 超时配置
+        proxy_connect_timeout 60s;
+        proxy_send_timeout 60s;
+        proxy_read_timeout 60s;
+    }
+
+    # 健康检查路由
+    location /health {
+        proxy_pass http://webhook_backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        
+        # 缓存健康检查结果
+        proxy_cache_valid 200 1m;
+    }
+
+    # 手动部署路由 (可选，用于管理)
+    location /deploy {
+        # 限制访问 IP (建议只允许管理员 IP)
+        # allow your_admin_ip;
+        # deny all;
+
+        proxy_pass http://webhook_backend;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # 拒绝其他所有请求
+    location / {
+        return 404;
+    }
+}
+
+# 速率限制配置 (在 http 块中添加)
+# http {
+#     # 定义速率限制区域
+#     limit_req_zone $binary_remote_addr zone=webhook_limit:10m rate=10r/m;
+#     
+#     # 在 server 块中应用
+#     # location /webhook {
+#         # limit_req zone=webhook_limit burst=5 nodelay;
+#     # }
+# }

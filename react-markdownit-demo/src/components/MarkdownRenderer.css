@@ -1,0 +1,473 @@
+/* MarkdownRenderer 样式 */
+.markdown-renderer {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  line-height: 1.6;
+  color: #333;
+  word-wrap: break-word;
+}
+
+/* 标题样式 */
+.markdown-renderer h1,
+.markdown-renderer h2,
+.markdown-renderer h3,
+.markdown-renderer h4,
+.markdown-renderer h5,
+.markdown-renderer h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #1f2328;
+}
+
+.markdown-renderer h1 {
+  font-size: 2em;
+  border-bottom: 1px solid #d1d9e0;
+  padding-bottom: 0.3em;
+}
+
+.markdown-renderer h2 {
+  font-size: 1.5em;
+  border-bottom: 1px solid #d1d9e0;
+  padding-bottom: 0.3em;
+}
+
+.markdown-renderer h3 {
+  font-size: 1.25em;
+}
+
+.markdown-renderer h4 {
+  font-size: 1em;
+}
+
+.markdown-renderer h5 {
+  font-size: 0.875em;
+}
+
+.markdown-renderer h6 {
+  font-size: 0.85em;
+  color: #656d76;
+}
+
+/* 段落样式 */
+.markdown-renderer p {
+  margin-top: 0;
+  margin-bottom: 16px;
+}
+
+/* 链接样式 */
+.markdown-renderer a {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.markdown-renderer a:hover {
+  text-decoration: underline;
+}
+
+.markdown-renderer a:visited {
+  color: #8250df;
+}
+
+/* 列表样式 */
+.markdown-renderer ul,
+.markdown-renderer ol {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding-left: 2em;
+}
+
+.markdown-renderer li {
+  margin-bottom: 0.25em;
+}
+
+.markdown-renderer li > p {
+  margin-top: 16px;
+}
+
+.markdown-renderer li + li {
+  margin-top: 0.25em;
+}
+
+/* 任务列表样式 */
+.markdown-renderer .task-list-item {
+  list-style-type: none;
+  margin-left: -1.5em;
+}
+
+.markdown-renderer .task-list-item-checkbox {
+  margin-right: 0.5em;
+}
+
+/* 引用块样式 */
+.markdown-renderer blockquote {
+  margin: 0 0 16px 0;
+  padding: 0 1em;
+  color: #656d76;
+  border-left: 0.25em solid #d1d9e0;
+}
+
+.markdown-renderer blockquote > :first-child {
+  margin-top: 0;
+}
+
+.markdown-renderer blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* 代码样式 */
+.markdown-renderer code {
+  padding: 0.2em 0.4em;
+  margin: 0;
+  font-size: 85%;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/* 代码块样式 */
+.markdown-renderer pre {
+  margin-top: 0;
+  margin-bottom: 16px;
+  padding: 16px;
+  overflow: auto;
+  font-size: 85%;
+  line-height: 1.45;
+  background-color: #f6f8fa;
+  border-radius: 6px;
+}
+
+.markdown-renderer pre code {
+  display: inline;
+  max-width: auto;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  line-height: inherit;
+  word-wrap: normal;
+  background-color: transparent;
+  border: 0;
+}
+
+/* 代码块包装器 */
+.code-block-wrapper {
+  position: relative;
+  margin: 16px 0;
+  border: 1px solid #d1d9e0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background-color: #f6f8fa;
+  border-bottom: 1px solid #d1d9e0;
+  font-size: 12px;
+  color: #656d76;
+}
+
+.language-label {
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.copy-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  color: #656d76;
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+  background-color: #d1d9e0;
+  color: #1f2328;
+}
+
+.code-block-wrapper pre {
+  margin: 0;
+  border-radius: 0;
+  border: none;
+}
+
+/* 表格样式 */
+.markdown-renderer table {
+  border-spacing: 0;
+  border-collapse: collapse;
+  margin-top: 0;
+  margin-bottom: 16px;
+  width: 100%;
+  overflow: auto;
+}
+
+.markdown-renderer table th,
+.markdown-renderer table td {
+  padding: 6px 13px;
+  border: 1px solid #d1d9e0;
+}
+
+.markdown-renderer table th {
+  font-weight: 600;
+  background-color: #f6f8fa;
+}
+
+.markdown-renderer table tr {
+  background-color: #ffffff;
+  border-top: 1px solid #d1d9e0;
+}
+
+.markdown-renderer table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+/* 图片样式 */
+.markdown-renderer .markdown-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+/* 分割线样式 */
+.markdown-renderer hr {
+  height: 0.25em;
+  padding: 0;
+  margin: 24px 0;
+  background-color: #d1d9e0;
+  border: 0;
+}
+
+/* 容器样式 */
+.markdown-renderer .alert {
+  padding: 16px;
+  margin: 16px 0;
+  border-left: 4px solid;
+  border-radius: 0 6px 6px 0;
+  position: relative;
+}
+
+.markdown-renderer .alert-title {
+  font-weight: 600;
+  margin-bottom: 8px;
+  font-size: 1.1em;
+}
+
+.markdown-renderer .alert-info {
+  background-color: #dbeafe;
+  border-color: #3b82f6;
+  color: #1e40af;
+}
+
+.markdown-renderer .alert-warning {
+  background-color: #fef3c7;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+.markdown-renderer .alert-success {
+  background-color: #d1fae5;
+  border-color: #10b981;
+  color: #065f46;
+}
+
+/* 目录样式 */
+.markdown-renderer .table-of-contents {
+  background-color: #f6f8fa;
+  border: 1px solid #d1d9e0;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 16px 0;
+}
+
+.markdown-renderer .table-of-contents ul {
+  margin: 0;
+  padding-left: 1.5em;
+}
+
+.markdown-renderer .table-of-contents > ul {
+  padding-left: 0;
+}
+
+.markdown-renderer .table-of-contents li {
+  margin-bottom: 4px;
+}
+
+.markdown-renderer .table-of-contents a {
+  text-decoration: none;
+  color: #0969da;
+}
+
+.markdown-renderer .table-of-contents a:hover {
+  text-decoration: underline;
+}
+
+/* 锚点链接样式 */
+.markdown-renderer .header-anchor {
+  float: left;
+  padding-right: 4px;
+  margin-left: -20px;
+  color: #d1d9e0;
+  text-decoration: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.markdown-renderer h1:hover .header-anchor,
+.markdown-renderer h2:hover .header-anchor,
+.markdown-renderer h3:hover .header-anchor,
+.markdown-renderer h4:hover .header-anchor,
+.markdown-renderer h5:hover .header-anchor,
+.markdown-renderer h6:hover .header-anchor {
+  opacity: 1;
+}
+
+/* 脚注样式 */
+.markdown-renderer .footnote-ref {
+  color: #0969da;
+  text-decoration: none;
+  font-size: 0.8em;
+  vertical-align: super;
+}
+
+.markdown-renderer .footnote-backref {
+  color: #0969da;
+  text-decoration: none;
+}
+
+.markdown-renderer .footnotes {
+  border-top: 1px solid #d1d9e0;
+  margin-top: 32px;
+  padding-top: 16px;
+  font-size: 0.9em;
+}
+
+.markdown-renderer .footnotes ol {
+  padding-left: 1.5em;
+}
+
+/* 定义列表样式 */
+.markdown-renderer dl {
+  margin-bottom: 16px;
+}
+
+.markdown-renderer dt {
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+.markdown-renderer dd {
+  margin-left: 2em;
+  margin-bottom: 8px;
+}
+
+/* 文本修饰样式 */
+.markdown-renderer mark {
+  background-color: #fff2cc;
+  padding: 0.1em 0.2em;
+  border-radius: 2px;
+}
+
+.markdown-renderer ins {
+  background-color: #ccffd8;
+  text-decoration: none;
+  padding: 0.1em 0.2em;
+  border-radius: 2px;
+}
+
+.markdown-renderer del {
+  background-color: #ffd7d5;
+  padding: 0.1em 0.2em;
+  border-radius: 2px;
+}
+
+/* 上标和下标样式 */
+.markdown-renderer sup,
+.markdown-renderer sub {
+  font-size: 0.75em;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+.markdown-renderer sup {
+  top: -0.5em;
+}
+
+.markdown-renderer sub {
+  bottom: -0.25em;
+}
+
+/* 缩写样式 */
+.markdown-renderer abbr {
+  border-bottom: 1px dotted #656d76;
+  cursor: help;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .markdown-renderer {
+    font-size: 14px;
+  }
+  
+  .markdown-renderer h1 {
+    font-size: 1.6em;
+  }
+  
+  .markdown-renderer h2 {
+    font-size: 1.4em;
+  }
+  
+  .markdown-renderer h3 {
+    font-size: 1.2em;
+  }
+  
+  .markdown-renderer pre {
+    padding: 12px;
+    font-size: 12px;
+  }
+  
+  .markdown-renderer .alert {
+    padding: 12px;
+  }
+  
+  .markdown-renderer table {
+    font-size: 12px;
+  }
+  
+  .markdown-renderer .table-of-contents {
+    padding: 12px;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .markdown-renderer {
+    color: #000;
+  }
+  
+  .markdown-renderer .copy-button {
+    display: none;
+  }
+  
+  .markdown-renderer .header-anchor {
+    display: none;
+  }
+  
+  .markdown-renderer a {
+    color: #000;
+    text-decoration: underline;
+  }
+  
+  .markdown-renderer .alert {
+    border: 1px solid #ccc;
+    background: #f9f9f9 !important;
+    color: #000 !important;
+  }
+}

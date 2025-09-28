@@ -1,0 +1,554 @@
+/* App 全局样式 */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9fa;
+  color: #1f2328;
+  line-height: 1.6;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* 头部样式 */
+.app-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.app-header h1 {
+  margin: 0 0 10px 0;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.app-header p {
+  margin: 0;
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+/* 导航样式 */
+.app-nav {
+  background: white;
+  border-bottom: 1px solid #d1d9e0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 0;
+}
+
+.nav-tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 24px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #656d76;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.nav-tab:hover {
+  color: #0969da;
+  background: #f6f8fa;
+}
+
+.nav-tab.active {
+  color: #0969da;
+  border-bottom-color: #0969da;
+  background: #f0f6ff;
+}
+
+.tab-icon {
+  font-size: 16px;
+}
+
+.tab-name {
+  font-weight: 500;
+}
+
+/* 主内容区域 */
+.app-main {
+  flex: 1;
+  padding: 40px 0;
+}
+
+.demo-section {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  margin-bottom: 32px;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.section-header h2 {
+  margin: 0 0 8px 0;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1f2328;
+}
+
+.section-header p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #656d76;
+}
+
+/* 演示信息 */
+.demo-info {
+  margin-top: 32px;
+  padding: 24px;
+  background: #f6f8fa;
+  border-radius: 8px;
+  border-left: 4px solid #0969da;
+}
+
+.demo-info h3 {
+  margin: 0 0 16px 0;
+  color: #1f2328;
+  font-size: 1.2rem;
+}
+
+.demo-info ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.demo-info li {
+  margin-bottom: 8px;
+  color: #656d76;
+}
+
+/* 渲染器演示 */
+.renderer-demo {
+  border: 1px solid #d1d9e0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.demo-renderer {
+  padding: 32px;
+  background: white;
+  min-height: 600px;
+}
+
+/* 示例网格 */
+.examples-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 24px;
+}
+
+.example-card {
+  background: #f6f8fa;
+  border: 1px solid #d1d9e0;
+  border-radius: 8px;
+  padding: 24px;
+  position: relative;
+}
+
+.example-card h3 {
+  margin: 0 0 16px 0;
+  color: #1f2328;
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.example-card pre {
+  margin: 0;
+  padding: 16px;
+  background: #ffffff;
+  border: 1px solid #d1d9e0;
+  border-radius: 6px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.example-card code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace;
+  color: #1f2328;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  padding: 6px 12px;
+  background: #0969da;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.copy-btn:hover {
+  background: #0550ae;
+}
+
+.copy-btn:active {
+  background: #033d8b;
+}
+
+/* 底部样式 */
+.app-footer {
+  background: #1f2328;
+  color: #8b949e;
+  padding: 32px 0;
+  text-align: center;
+  margin-top: auto;
+}
+
+.app-footer p {
+  margin: 8px 0;
+}
+
+.app-footer a {
+  color: #58a6ff;
+  text-decoration: none;
+  margin: 0 8px;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 16px;
+  }
+  
+  .app-header {
+    padding: 24px 0;
+  }
+  
+  .app-header h1 {
+    font-size: 2rem;
+  }
+  
+  .app-header p {
+    font-size: 1rem;
+  }
+  
+  .nav-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .nav-tab {
+    padding: 12px 16px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  
+  .tab-name {
+    display: none;
+  }
+  
+  .app-main {
+    padding: 24px 0;
+  }
+  
+  .demo-section {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .section-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .section-header p {
+    font-size: 1rem;
+  }
+  
+  .examples-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .example-card {
+    padding: 16px;
+  }
+  
+  .example-card pre {
+    padding: 12px;
+    font-size: 12px;
+  }
+  
+  .copy-btn {
+    top: 12px;
+    right: 12px;
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  
+  .demo-renderer {
+    padding: 16px;
+  }
+  
+  .demo-info {
+    padding: 16px;
+    margin-top: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .nav-tab {
+    padding: 10px 12px;
+  }
+  
+  .tab-icon {
+    font-size: 14px;
+  }
+  
+  .demo-section {
+    padding: 16px;
+    border-radius: 8px;
+  }
+  
+  .section-header h2 {
+    font-size: 1.3rem;
+  }
+  
+  .examples-grid {
+    gap: 12px;
+  }
+  
+  .example-card {
+    padding: 12px;
+  }
+}
+
+/* 加载动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.demo-section {
+  animation: fadeInUp 0.5s ease;
+}
+
+/* 滚动条样式 */
+.nav-tabs::-webkit-scrollbar {
+  height: 3px;
+}
+
+.nav-tabs::-webkit-scrollbar-track {
+  background: #f6f8fa;
+}
+
+.nav-tabs::-webkit-scrollbar-thumb {
+  background: #d1d9e0;
+  border-radius: 3px;
+}
+
+.nav-tabs::-webkit-scrollbar-thumb:hover {
+  background: #b6bcc6;
+}
+
+/* 高对比度模式 */
+@media (prefers-contrast: high) {
+  .app-header {
+    background: #000000;
+  }
+  
+  .nav-tab {
+    color: #000000;
+  }
+  
+  .nav-tab:hover,
+  .nav-tab.active {
+    color: #000000;
+    background: #ffffff;
+    border-color: #000000;
+  }
+  
+  .demo-section {
+    border: 2px solid #000000;
+  }
+  
+  .example-card {
+    border-color: #000000;
+  }
+  
+  .copy-btn {
+    background: #000000;
+    color: #ffffff;
+  }
+}
+
+/* 深色模式支持 */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #0d1117;
+    color: #f0f6fc;
+  }
+  
+  .app-header {
+    background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
+  }
+  
+  .app-nav {
+    background: #161b22;
+    border-color: #30363d;
+  }
+  
+  .nav-tab {
+    color: #8b949e;
+  }
+  
+  .nav-tab:hover {
+    color: #58a6ff;
+    background: #21262d;
+  }
+  
+  .nav-tab.active {
+    color: #58a6ff;
+    background: #0d1117;
+    border-color: #58a6ff;
+  }
+  
+  .demo-section {
+    background: #161b22;
+    border-color: #30363d;
+  }
+  
+  .section-header h2 {
+    color: #f0f6fc;
+  }
+  
+  .section-header p {
+    color: #8b949e;
+  }
+  
+  .demo-info {
+    background: #21262d;
+    border-color: #58a6ff;
+  }
+  
+  .demo-info h3 {
+    color: #f0f6fc;
+  }
+  
+  .demo-info li {
+    color: #8b949e;
+  }
+  
+  .renderer-demo {
+    border-color: #30363d;
+  }
+  
+  .demo-renderer {
+    background: #0d1117;
+  }
+  
+  .example-card {
+    background: #21262d;
+    border-color: #30363d;
+  }
+  
+  .example-card h3 {
+    color: #f0f6fc;
+  }
+  
+  .example-card pre {
+    background: #161b22;
+    border-color: #30363d;
+  }
+  
+  .example-card code {
+    color: #f0f6fc;
+  }
+  
+  .copy-btn {
+    background: #238636;
+  }
+  
+  .copy-btn:hover {
+    background: #2ea043;
+  }
+  
+  .app-footer {
+    background: #010409;
+  }
+}
+
+/* 打印样式 */
+@media print {
+  .app-nav,
+  .app-footer {
+    display: none;
+  }
+  
+  .app-header {
+    background: none;
+    color: #000000;
+    padding: 20px 0;
+  }
+  
+  .demo-section {
+    box-shadow: none;
+    border: 1px solid #cccccc;
+    page-break-inside: avoid;
+  }
+  
+  .copy-btn {
+    display: none;
+  }
+  
+  .examples-grid {
+    grid-template-columns: 1fr;
+  }
+}

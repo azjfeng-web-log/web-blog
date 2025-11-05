@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>页面截图</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <h1>📸 页面截图</h1>
+    
+    <div class="button-group">
+      <button id="fullPageBtn" class="btn btn-primary">
+        <span class="icon">📄</span>
+        <span>全页面截图</span>
+      </button>
+      <button id="visibleBtn" class="btn btn-primary">
+        <span class="icon">👁️</span>
+        <span>可见区域截图</span>
+      </button>
+      <button id="selectBtn" class="btn btn-primary">
+        <span class="icon">✂️</span>
+        <span>选定区域截图</span>
+      </button>
+    </div>
+
+    <div id="status" class="status"></div>
+    
+    <div class="info">
+      <p>💡 提示：截图将自动保存到下载文件夹</p>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

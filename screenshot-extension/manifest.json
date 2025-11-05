@@ -1,0 +1,30 @@
+{
+  "manifest_version": 3,
+  "name": "页面截图工具",
+  "version": "1.0.0",
+  "description": "快速截图网页，支持全页面、可见区域和选定区域截图",
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "tabs"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "页面截图"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "run_at": "document_start",
+      "all_frames": true
+    }
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+}
